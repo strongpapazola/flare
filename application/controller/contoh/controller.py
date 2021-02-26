@@ -1,4 +1,5 @@
 from application.config.autoload import *
+from application.config.config import *
 
 contoh = Blueprint('contoh', __name__, static_folder = 'application/upload/foto_contoh', static_url_path="/media")
 
@@ -14,7 +15,8 @@ def oauth():
 
 @contoh.route("/mongodb")
 def home_page():
-    mongo = PyMongo(contoh)
+#    mongo = PyMongo(contoh)
+    null, mongo = Main()
     online_users = mongo.db.users.find()
     # online_users = mongo.db.users.find({"online": True})
     return online_users
