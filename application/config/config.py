@@ -1,12 +1,15 @@
 from application.config.autoload import *
+from application.helper.mongoformater import *
+from application.helper.jsonformater import *
+
 
 mongo = PyMongo()
 
-def create_app(name):
-    app = Flask(name)
+def config_app(app):
     app.config['MONGO_URI'] = 'mongodb://admin:admin@portal.bisaai.id:27017/digileaps'
     mongo.init_app(app)
     return app
+
 
 # class Config(object):
 #     def __init__(self, app=None, uri=None, *args, **kwargs):

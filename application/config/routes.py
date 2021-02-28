@@ -1,7 +1,8 @@
 from application.config.config import *
 from application.controller.contoh.controller import contoh
 
-app = create_app(__name__)
+app = Flask(__name__)
+app = config_app(app)
 app.register_blueprint(contoh,url_prefix='/contoh')
 
 if "__main__" == __name__:

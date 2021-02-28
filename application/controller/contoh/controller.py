@@ -1,4 +1,3 @@
-from application.config.autoload import *
 from application.config.config import *
 
 contoh = Blueprint('contoh', __name__, static_folder = 'application/upload/foto_contoh', static_url_path="/media")
@@ -13,10 +12,13 @@ def oauth():
     oauth.init_app(contoh)
     return 'oauth'
 
-@contoh.route("/mongodb")
+@contoh.route("/mongodb", methods=["GET","POST"])
 def home_page():
-#    mongo = PyMongo(contoh)
-    null, mongo = Main()
-    online_users = mongo.db.users.find()
-    # online_users = mongo.db.users.find({"online": True})
-    return online_users
+    # print(dict(request.args))
+    if request.args:
+        return json_response(mongo_loads(mongo.db.berita.find(dict(request.args), field=['judul'])))
+    else:
+        return json_response(mongo_loads(mongo.db.berita.find(), field=['judul']))
+
+    # return make_response(jsonify([{item for item in data if item != '_id'} for data in mongo.db.berita.find()]))
+    # return make_response(jsonify(mongo.db.berita.find()[0]))
