@@ -1,0 +1,5 @@
+flask
+flask_oauthlib
+flask_pymongo
+jwt
+flask-jwt

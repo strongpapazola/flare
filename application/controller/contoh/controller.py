@@ -1,24 +1,39 @@
 from application.config.config import *
+from application.config.autoload import *
+from application.helper import *
 
-contoh = Blueprint('contoh', __name__, static_folder = 'application/upload/foto_contoh', static_url_path="/media")
 
-@contoh.route('/get_contoh',methods=['GET','POST'])
-def index():
-    return str(sys.version)
+berita = Blueprint('berita', __name__, static_folder = 'application/upload/foto_berita', static_url_path="/media")
 
-@contoh.route('/oauth',methods=['GET','POST'])
-def oauth():
-    oauth = OAuth2Provider()
-    oauth.init_app(contoh)
-    return 'oauth'
-
-@contoh.route("/mongodb", methods=["GET","POST"])
+@berita.route("/mongodb", methods=["GET","POST"])
 def home_page():
-    # print(dict(request.args))
-    if request.args:
-        return json_response(mongo_loads(mongo.db.berita.find(dict(request.args), field=['judul'])))
-    else:
-        return json_response(mongo_loads(mongo.db.berita.find(), field=['judul']))
+    return json_response(mongo_json(mongo_loads('berita')), 200)
 
-    # return make_response(jsonify([{item for item in data if item != '_id'} for data in mongo.db.berita.find()]))
-    # return make_response(jsonify(mongo.db.berita.find()[0]))
+# {
+#     "_id": "lf7834hof8hsiduhfljkshd",
+#     "judul" : "Judul Berita",
+#     "isi" : "Isi berita",
+#     "kategori": ["987h0887onas87dn78s"],
+#     "updated" : [
+#         {
+#             "id_user":"09827349yh92jd9m8024md34",
+#             "updated_at": "82736948762"
+#         },
+#         {
+#             "id_user":"09827349yfg2jd9m8024md34",
+#             "updated_at": "82736948763"
+#         }
+#     ],
+#     "foto" : "berita_29830472837.png",
+#     "sumber_foto" : "https://example.com/image.png",
+#     "jumlah_pembaca" : 12,
+#     "waktu_baca" : 5, //menit
+#     "is_aktif" : 1,
+#     "komentar": [
+#         {
+#             "komentar" : "comment",
+#             "created_at": 82736948762,
+#             "id_user": "09827349yh92jd9m8024md34"
+#         }
+#     ]
+# }
